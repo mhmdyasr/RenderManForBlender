@@ -183,7 +183,7 @@ class RENDER_PT_renderman_render(PRManButtonsPanel, Panel):
         layout = self.layout
         rd = context.scene.render
         rm = context.scene.renderman
-        
+
         # Render
         row = layout.row(align=True)
         rman_render = icons.get("render")
@@ -381,7 +381,7 @@ def draw_props(node, prop_names, layout):
         row = layout.row()
 
         if prop_meta['renderman_type'] == 'page':
-            ui_prop = prop_name + "_ui_open"
+            ui_prop = prop_name + "_uio"
             ui_open = getattr(node, ui_prop)
             icon = 'DISCLOSURE_TRI_DOWN' if ui_open \
                 else 'DISCLOSURE_TRI_RIGHT'
@@ -561,6 +561,11 @@ class RENDER_PT_renderman_advanced_settings(PRManButtonsPanel, Panel):
             row.prop(rm, "bucket_sprial_x", text="X")
             row.prop(rm, "bucket_sprial_y", text="Y")
 
+        layout.separator()
+        col = layout.column()
+        col.prop(rm, "use_metadata")
+        if rm.use_metadata:
+            col.prop(rm, "custom_metadata")        
         layout.separator()
         col = layout.column()
         row = col.row()
@@ -1444,6 +1449,7 @@ class RENDER_PT_layer_custom_aovs(CollectionPanel, Panel):
             split = layout.split()
             col = split.column()
             rl = active_layer
+            col.prop(rl, "use_metadata")
             col.prop(rl, "use_pass_combined")
             col.prop(rl, "use_pass_z")
             col.prop(rl, "use_pass_normal")
